@@ -284,6 +284,16 @@ uint8_t app_ble_get_connhdl(int conn_idx)
 	return (app_ble_env.connections[conn_idx].conhdl);
 }
 
+/// Scan properties applied by app_ble_start_scaning(). Defaults to passive
+/// scanning on the 1M PHY, the behaviour this value previously hardcoded; add
+/// GAPM_SCAN_PROP_ACTIVE_1M_BIT to transmit scan requests (active scanning).
+static uint8_t app_ble_scan_prop = GAPM_SCAN_PROP_PHY_1M_BIT;
+
+void app_ble_set_scan_prop(uint8_t prop)
+{
+	app_ble_scan_prop = prop;
+}
+
 void app_ble_run(uint8_t idx, ble_cmd_t cmd, uint32_t op_mask, ble_cmd_cb_t callback)
 {
 	app_ble_env.op_mask = op_mask;
@@ -703,7 +713,7 @@ ble_err_t app_ble_start_scaning(uint8_t actv_idx, uint16_t scan_intv, uint16_t s
 			p_cmd->operation = GAPM_START_ACTIVITY;
 
 			p_cmd->u_param.scan_param.type = GAPM_SCAN_TYPE_OBSERVER;//GAPM_SCAN_TYPE_GEN_DISC;//GAPM_SCAN_TYPE_OBSERVER;//;
-			p_cmd->u_param.scan_param.prop = GAPM_SCAN_PROP_PHY_1M_BIT ;//| GAPM_SCAN_PROP_ACTIVE_1M_BIT;
+			p_cmd->u_param.scan_param.prop = app_ble_scan_prop;
 			p_cmd->u_param.scan_param.scan_param_1m.scan_intv = scan_intv;
 			p_cmd->u_param.scan_param.scan_param_1m.scan_wd = scan_wd;
 			p_cmd->u_param.scan_param.dup_filt_pol = 0;

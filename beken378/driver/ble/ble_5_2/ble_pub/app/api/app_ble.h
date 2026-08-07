@@ -345,6 +345,11 @@ uint8_t app_ble_actv_state_find(uint8_t status);
 
 uint8_t app_ble_get_connhdl(int conn_idx);
 void app_ble_run(uint8_t idx, ble_cmd_t cmd, uint32_t op_mask, ble_cmd_cb_t callback);
+
+/// Set the scan properties applied by app_ble_start_scaning(). Defaults to
+/// GAPM_SCAN_PROP_PHY_1M_BIT (passive); add GAPM_SCAN_PROP_ACTIVE_1M_BIT for
+/// active scanning (scan requests / scan responses).
+void app_ble_set_scan_prop(uint8_t prop);
 void app_ble_reset(void);
 ble_err_t app_ble_create_advertising(uint8_t actv_idx, struct adv_param *adv);
 ble_err_t app_ble_create_extended_advertising(uint8_t actv_idx, ext_adv_param_cfg_t * param);
